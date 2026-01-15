@@ -78,4 +78,59 @@ class LinkedList {
 
     return returnValue(this, 0)
   }
+
+  pop() {
+    //list of length 1
+    if (this.nextNode == null) {
+      const head = JSON.parse(JSON.stringify(this)).value;
+      delete this.value
+      delete this.nextNode;
+      return head
+    }
+    //empty list
+    if (this.value == undefined) return
+    //list of length greater than 1
+    const oldHead = JSON.parse(JSON.stringify(this)).value;
+    const newListValue = JSON.parse(JSON.stringify(this.nextNode.value));
+    const newListNextNode = JSON.parse(JSON.stringify(this.nextNode.nextNode));
+    this.value = newListValue;
+    this.nextNode = newListNextNode;
+    return oldHead;
+  }
+
+  contains(value) {
+    if (this.value == undefined) return false
+    function checkCurrentNode(node) {
+      if (node.value == value) return true
+      if (node.nextNode == null) return false
+      return checkCurrentNode(node.nextNode);
+    }
+
+    return checkCurrentNode(this)
+  }
+
+  findIndex(value) {
+    if (this.value == undefined) return -1
+    function checkCurrentNode(node, index) {
+      if (node.value == value) return index
+      if (node.nextNode == null) return -1
+      return checkCurrentNode(node.nextNode, ++index)
+    }
+
+    return checkCurrentNode(this, 0)
+  }
+
+  toString() {
+    if (this.value == undefined) return ''
+    function addNodeValues(node, string) {
+      if (node.nextNode == null) return string + `( ${node.value} ) -> null`
+      return addNodeValues(node.nextNode, string + `( ${node.value} ) -> `)
+    }
+
+    return addNodeValues(this, '')
+  }
+
+  insertAt(index, ...values) {
+    
+  }
 }
