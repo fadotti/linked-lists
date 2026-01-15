@@ -131,6 +131,44 @@ class LinkedList {
   }
 
   insertAt(index, ...values) {
-    
+    if (this.size() < index) throw new RangeError("<index> can't be larger than the size of the list")
+    //inserting in the middle
+    if (index > 0 && index < this.size()) {
+      let firstSegment = [];
+      for (let i = 0; i < index; i++) {
+        firstSegment.push(this.pop());
+      }
+      firstSegment = [...firstSegment, ...values];
+      firstSegment.reverse().forEach((value) => {
+        this.prepend(value);
+      })
+    }
+    //inserting at the beginning of the list
+    if (index == 0) {
+      [...values].reverse().forEach((value) => {
+        this.prepend(value);
+      })
+    }
+    //inserting at the end of the list
+    if (index == this.size()) {
+      [...values].forEach((value) => {
+        this.append(value);
+      })
+    }
+  }
+
+  removeAt(index) {
+    if (this.size() - 1 < index) throw new RangeError("<index> can't be larger than (size of the list minus one)")
+
+    let listValues = [];
+    const listSize = this.size();
+    for (let i = 0; i < listSize; i++) {
+      listValues.push(this.pop());
+    }
+
+    listValues.splice(index, 1);
+    listValues.forEach((value) => {
+      this.append(value)
+    })
   }
 }
